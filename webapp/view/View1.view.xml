@@ -1,0 +1,78 @@
+<mvc:View controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:viz="sap.viz.ui5.controls"  
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data" height="100%"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <viz:Popover id="idPopOver"></viz:Popover>
+            <viz:VizFrame 
+                id="idVizFrame" 
+                uiConfig="{applicationSet:'fiori'}"
+                height='100%' width="100%" vizType='column'
+                vizProperties="{
+
+                    plotArea: {
+                        dataLabel: { 
+                            visible: true
+                        }, 
+                        colorPalette : ['#132424', '#999999']
+                    },
+
+                    title : {
+                        text : '차트 제목', 
+                        visible : true
+                    }, 
+
+                    valueAxis : {
+                        title : {
+                            text : 'Value 축 제목', 
+                            visible : true
+                        } 
+                    },
+
+                    categoryAxis : {
+                        title : {
+                            text : 'Category 축 제목', 
+                            visible : true
+                        }
+                    }
+
+                }">
+
+                <!-- VIS TYPE : 차트 종류 -->
+                <viz:dataset>
+                    <viz.data:FlattenedDataset data="{/milk}"> 
+                    <!--차트데이터 AGGREGATION BINDING-->
+                        <viz.data:dimensions>
+                            <viz.data:DimensionDefinition name="Week"
+                                value="{Week}" />
+                        </viz.data:dimensions>
+                        <viz.data:measures>
+                        <!-- measure : 측정값 : y축으로 넣어주는  -->
+                            <viz.data:MeasureDefinition name="Revenue"
+                                value="{Revenue}" />
+                            <viz.data:MeasureDefinition name="Cost"
+                                value="{Cost}" />
+                        </viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+
+                <viz:feeds>
+                <!-- feed 대로 그려줌 -->
+                    <viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" 
+                        values="Revenue" />
+                    <!-- feeditem : uid만 valueAxis 제대로 써주시면 됨 -->
+                    <viz.feeds:FeedItem id='valueAxisFeed2' uid="valueAxis" type="Measure" 
+                        values="Cost" />
+
+                    <viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension"
+                        values="Week" />
+                </viz:feeds>
+            </viz:VizFrame>
+        </content>
+
+
+    </Page>
+</mvc:View>
